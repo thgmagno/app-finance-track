@@ -8,6 +8,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { usePathname } from 'next/navigation'
+import React from 'react'
 
 export function Breadcrumb() {
   const pathname = usePathname()
@@ -21,7 +22,7 @@ export function Breadcrumb() {
         </BreadcrumbItem>
         {paths.length > 0 &&
           paths.map((path, index) => (
-            <>
+            <React.Fragment key={`${path}-${index}`}>
               <BreadcrumbSeparator />
               {index + 1 === paths.length ? (
                 <BreadcrumbItem className="cursor-default select-none">
@@ -34,7 +35,7 @@ export function Breadcrumb() {
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               )}
-            </>
+            </React.Fragment>
           ))}
       </BreadcrumbList>
     </BreadcrumbComponent>
