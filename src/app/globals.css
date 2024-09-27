@@ -27,7 +27,10 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem;
+    --light: 0 0% 100%;
+    --medium: 0 0% 100%;
+    --dark: 0 0% 100%;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -61,6 +64,19 @@
     @apply border-border;
   }
   body {
-    @apply dark bg-background text-foreground;
+    @apply dark bg-dark text-foreground;
   }
+  main {
+    @apply pt-5 pb-32 px-2 max-w-5xl mx-auto
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    &::-webkit-scrollbar {
+     display: none;
+   }
+   -ms-overflow-style: none;
+   scrollbar-width: none;
+ }
 }
