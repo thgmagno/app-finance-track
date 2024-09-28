@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { toast } from '@/hooks/use-toast'
+import { ReactNode } from 'react'
 
 interface Props {
   id: string
@@ -9,9 +10,10 @@ interface Props {
     success: boolean
     message: string
   }>
+  children: ReactNode
 }
 
-export function DropButton({ id, action }: Props) {
+export function DropButton({ id, action, children }: Props) {
   const handleClick = async () => {
     toast({ description: 'Loading...' })
     const { success, message } = await action(id)
@@ -21,5 +23,5 @@ export function DropButton({ id, action }: Props) {
       : toast({ description: message, variant: 'destructive' })
   }
 
-  return <Button onClick={handleClick}>Delete</Button>
+  return <Button onClick={handleClick}>{children}</Button>
 }

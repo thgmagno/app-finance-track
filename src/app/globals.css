@@ -73,10 +73,22 @@
 
 @layer utilities {
   .no-scrollbar {
-    &::-webkit-scrollbar {
-     display: none;
-   }
-   -ms-overflow-style: none;
-   scrollbar-width: none;
- }
+     &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2 fixed
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-black
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral-800
+  }
 }

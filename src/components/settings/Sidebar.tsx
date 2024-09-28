@@ -5,7 +5,7 @@ import Link from 'next/link'
 export function Sidebar() {
   const Item = ({ href, label }: { href: string; label: string }) => {
     return (
-      <Link href={href} className="p-2">
+      <Link href={href} className="py-2">
         {label}
       </Link>
     )
