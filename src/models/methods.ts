@@ -9,5 +9,5 @@ export interface MethodFormState {
 
 export const MethodSchema = z.object({
   id: z.string().optional(),
-  name: z.string().min(1),
+  name: z.string().min(1).max(32),
 })
