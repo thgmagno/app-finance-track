@@ -2,6 +2,7 @@ import { actions } from '@/actions'
 import { CardMethods } from '@/components/cards/CardMethods'
 import { Time } from '@/lib/time'
 import { unstable_cache as cache } from 'next/cache'
+import { Suspense } from 'react'
 
 export default async function Methods() {
   const getMethods = cache(
@@ -16,7 +17,9 @@ export default async function Methods() {
 
   return (
     <div>
-      <CardMethods methodsList={methods} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CardMethods methodsList={methods} />
+      </Suspense>
     </div>
   )
 }

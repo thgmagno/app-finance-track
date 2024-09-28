@@ -23,7 +23,7 @@ import { useFormState } from 'react-dom'
 import { actions } from '@/actions'
 import { ErrorMessage } from '../shared/ErrorMessage'
 import { redirect, useSearchParams } from 'next/navigation'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Categories } from '@prisma/client'
 import { z } from 'zod'
 import { Edit, Grid2x2Plus, MoreHorizontal, Trash2 } from 'lucide-react'
@@ -67,62 +67,60 @@ export function CardCategories({
   }, [searchParams, formState])
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="flex flex-col space-y-5">
-        <Card>
-          <CardHeader>
-            <CardTitle>Categories</CardTitle>
-            <CardDescription>
-              This is the visible name of your financial category. For example,
-              "Food", "Transport", or "Leisure", which helps classify your
-              expenses or income.
-            </CardDescription>
-          </CardHeader>
-          <form action={action}>
-            <CardContent>
-              <div className="grid w-full items-center gap-4">
-                <input type="hidden" name="id" value={id} />
-                <div className="grid gap-5 md:grid-cols-2">
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                    <ErrorMessage message={formState?.errors.name} />
-                  </div>
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="type">Type</Label>
-                    <Select name="type" value={type} onValueChange={setType}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="EXPENSE">Expense</SelectItem>
-                          <SelectItem value="RECEIPT">Receipt</SelectItem>
-                          <SelectItem value="SAVING">Saving</SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <ErrorMessage message={formState?.errors.type} />
-                  </div>
+    <div className="flex flex-col space-y-5">
+      <Card>
+        <CardHeader>
+          <CardTitle>Categories</CardTitle>
+          <CardDescription>
+            This is the visible name of your financial category. For example,
+            "Food", "Transport", or "Leisure", which helps classify your
+            expenses or income.
+          </CardDescription>
+        </CardHeader>
+        <form action={action}>
+          <CardContent>
+            <div className="grid w-full items-center gap-4">
+              <input type="hidden" name="id" value={id} />
+              <div className="grid gap-5 md:grid-cols-2">
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <ErrorMessage message={formState?.errors.name} />
+                </div>
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="type">Type</Label>
+                  <Select name="type" value={type} onValueChange={setType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="EXPENSE">Expense</SelectItem>
+                        <SelectItem value="RECEIPT">Receipt</SelectItem>
+                        <SelectItem value="SAVING">Saving</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <ErrorMessage message={formState?.errors.type} />
                 </div>
               </div>
-            </CardContent>
-            <CardFooter className="flex justify-between border-t pt-5">
-              <span className="mr-5 text-sm text-muted-foreground">
-                Please use 32 characters at maximum.
-              </span>
-              <SubmitButton title="Save" className="min-w-[67.47px]" />
-            </CardFooter>
-          </form>
-        </Card>
-        <ListCategories categoriesList={categoriesList} />
-      </div>
-    </Suspense>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-between border-t pt-5">
+            <span className="mr-5 text-sm text-muted-foreground">
+              Please use 32 characters at maximum.
+            </span>
+            <SubmitButton title="Save" className="min-w-[67.47px]" />
+          </CardFooter>
+        </form>
+      </Card>
+      <ListCategories categoriesList={categoriesList} />
+    </div>
   )
 }
 
