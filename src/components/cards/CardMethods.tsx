@@ -123,8 +123,8 @@ function ListMethods({ methodsList }: { methodsList: Methods[] }) {
   const encodeData = (data: Methods) => encodeURI(JSON.stringify(data))
 
   const handleDelete = async (id: string) => {
-    const { success, message } = await actions.methods.drop(id)
     toast({ description: '⌛ Loading...' })
+    const { success, message } = await actions.methods.drop(id)
 
     return success
       ? toast({ description: message })

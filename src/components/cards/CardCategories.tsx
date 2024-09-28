@@ -155,8 +155,8 @@ function ListCategories({ categoriesList }: { categoriesList: Categories[] }) {
   const encodeData = (data: Categories) => encodeURI(JSON.stringify(data))
 
   const handleDelete = async (id: string) => {
-    const { success, message } = await actions.categories.drop(id)
     toast({ description: '⌛ Loading...' })
+    const { success, message } = await actions.categories.drop(id)
 
     return success
       ? toast({ description: message })
