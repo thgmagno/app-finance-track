@@ -12,7 +12,7 @@ export function NavigationMenu() {
 
     return (
       <div
-        className={clsx('inline-flex border-b-2 border-transparent p-1', {
+        className={clsx('inline-flex border-b border-transparent p-1', {
           'border-white': isActive,
         })}
       >

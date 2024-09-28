@@ -2,7 +2,7 @@ import { PageTitle } from '@/components/shared/PageTitle'
 import { Button } from '@/components/ui/button'
 
 export default async function Expenses() {
-  const AddButton = () => <Button variant="secondary">Add new</Button>
+  const AddButton = () => <Button>Add new</Button>
 
   return (
     <>
