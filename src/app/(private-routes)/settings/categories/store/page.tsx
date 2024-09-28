@@ -2,7 +2,7 @@
 
 import { actions } from '@/actions'
 import { SubmitButton } from '@/components/shared/SubmitButton'
-import { usePathname, useSearchParams } from 'next/navigation'
+// import { usePathname, useSearchParams } from 'next/navigation'
 import { useFormState } from 'react-dom'
 
 export default function StoreCategories() {
@@ -10,8 +10,8 @@ export default function StoreCategories() {
     errors: {},
   })
 
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
+  // const searchParams = useSearchParams()
+  // const pathname = usePathname()
 
   return (
     <div>
