@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Users {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  team      Teams?   @relation("UserTeam", fields: [teamId], references: [id])
+  teamId    String?  @map("team_id")
+  ownedTeam Teams?   @relation("TeamOwner")
+
+  @@map("users")
+}
+
+model Teams {
+  id           String         @id @default(cuid())
+  name         String
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  owner        Users          @relation("TeamOwner", fields: [ownerId], references: [id])
+  users        Users[]        @relation("UserTeam")
+  ownerId      String         @unique @map("owner_id")
+  Methods      Methods[]
+  Categories   Categories[]
+  Transactions Transactions[]
+
+  @@map("teams")
+}
+
+model Methods {
+  id           String         @id @default(cuid())
+  name         String
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  team         Teams          @relation(fields: [teamsId], references: [id], onDelete: Cascade)
+  teamsId      String         @map("team_id")
+  Transactions Transactions[]
+
+  @@map("methods")
+}
+
+model Categories {
+  id           String         @id @default(cuid())
+  name         String
+  type         CategoryType
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  team         Teams          @relation(fields: [teamsId], references: [id], onDelete: Cascade)
+  teamsId      String         @map("team_id")
+  Transactions Transactions[]
+
+  @@map("categories")
+}
+
+model Transactions {
+  id         String     @id @default(cuid())
+  amount     Float
+  date       DateTime
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+  team       Teams      @relation(fields: [teamsId], references: [id], onDelete: Cascade)
+  teamsId    String     @map("team_id")
+  category   Categories @relation(fields: [categoryId], references: [id])
+  categoryId String     @map("category_id")
+  method     Methods    @relation(fields: [methodId], references: [id])
+  methodId   String     @map("method_id")
+
+  @@map("transactions")
+}
+
+enum CategoryType {
+  EXPENSE
+  RECEIPT
+  SAVING
+}

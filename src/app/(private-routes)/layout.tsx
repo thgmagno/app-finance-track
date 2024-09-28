@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/navbar'
+import { Providers } from './providers'
 
 export default function PrivateLayout({
   children,
@@ -6,9 +7,9 @@ export default function PrivateLayout({
   children: React.ReactNode
 }>) {
   return (
-    <>
+    <Providers>
       <Navbar />
       {children}
-    </>
+    </Providers>
   )
 }
