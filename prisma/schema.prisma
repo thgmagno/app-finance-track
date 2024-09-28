@@ -30,9 +30,9 @@ model Teams {
   owner        Users          @relation("TeamOwner", fields: [ownerId], references: [id])
   users        Users[]        @relation("UserTeam")
   ownerId      String         @unique @map("owner_id")
-  Methods      Methods[]
-  Categories   Categories[]
-  Transactions Transactions[]
+  methods      Methods[]
+  categories   Categories[]
+  transactions Transactions[]
 
   @@map("teams")
 }
@@ -42,9 +42,9 @@ model Methods {
   name         String
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
-  team         Teams          @relation(fields: [teamsId], references: [id], onDelete: Cascade)
-  teamsId      String         @map("team_id")
-  Transactions Transactions[]
+  team         Teams          @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId       String         @map("team_id")
+  transactions Transactions[]
 
   @@map("methods")
 }
@@ -55,9 +55,9 @@ model Categories {
   type         CategoryType
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
-  team         Teams          @relation(fields: [teamsId], references: [id], onDelete: Cascade)
-  teamsId      String         @map("team_id")
-  Transactions Transactions[]
+  team         Teams          @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId       String         @map("team_id")
+  transactions Transactions[]
 
   @@map("categories")
 }
@@ -68,8 +68,8 @@ model Transactions {
   date       DateTime
   createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
-  team       Teams      @relation(fields: [teamsId], references: [id], onDelete: Cascade)
-  teamsId    String     @map("team_id")
+  team       Teams      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId     String     @map("team_id")
   category   Categories @relation(fields: [categoryId], references: [id])
   categoryId String     @map("category_id")
   method     Methods    @relation(fields: [methodId], references: [id])
