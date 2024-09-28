@@ -3,6 +3,7 @@ import { z } from 'zod'
 const schema = z.object({
   AUTH_SECRET: z.string(),
   COOKIE_NAME: z.string(),
+  BASE_URL: z.string().url(),
   POSTGRES_URL: z.string().url(),
   POSTGRES_PRISMA_URL: z.string().url(),
   POSTGRES_URL_NO_SSL: z.string().url(),

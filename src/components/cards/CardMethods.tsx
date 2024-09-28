@@ -99,7 +99,7 @@ function parseData(data: string | null) {
     id: z.string(),
     createdAt: z.string().transform((val) => new Date(val)),
     updatedAt: z.string().transform((val) => new Date(val)),
-    teamsId: z.string(),
+    teamId: z.string(),
   })
 
   const dataJson = JSON.parse(decodeURI(String(data)))

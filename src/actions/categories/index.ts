@@ -5,6 +5,7 @@ import { CategoryFormState, CategorySchema } from '@/models/category'
 import { $Enums } from '@prisma/client'
 import { revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { getServerSession } from '@/actions/auth/session'
 
 export async function upsert(
   formState: CategoryFormState,
@@ -21,8 +22,7 @@ export async function upsert(
   }
 
   try {
-    // userId: 'cm1lkjsgh00040cl473nr0rpw'
-    const teamsId = 'cm1lkj5n400020cl40cda41lc'
+    const { teamId } = await getServerSession()
 
     await prisma.categories.upsert({
       where: { id: parsed.data.id },
@@ -33,7 +33,7 @@ export async function upsert(
       create: {
         name: parsed.data.name,
         type: parsed.data.type as $Enums.CategoryType,
-        teamsId,
+        teamId,
       },
     })
   } catch (err) {

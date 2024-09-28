@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { MethodFormState, MethodSchema } from '@/models/methods'
 import { revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { getServerSession } from '@/actions/auth/session'
 
 export async function upsert(
   formState: MethodFormState,
@@ -19,7 +20,7 @@ export async function upsert(
   }
 
   try {
-    const teamsId = 'cm1lkj5n400020cl40cda41lc'
+    const { teamId } = await getServerSession()
 
     await prisma.methods.upsert({
       where: { id: parsed.data.id },
@@ -28,7 +29,7 @@ export async function upsert(
       },
       create: {
         name: parsed.data.name,
-        teamsId,
+        teamId,
       },
     })
   } catch (err) {

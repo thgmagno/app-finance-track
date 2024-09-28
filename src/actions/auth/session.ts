@@ -2,6 +2,7 @@
 
 import * as jose from 'jose'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { env } from 'root/env'
 
 const secret = new TextEncoder().encode(env.AUTH_SECRET)
@@ -39,4 +40,11 @@ export async function createSessionToken(
   })
 
   return session
+}
+
+export async function getServerSession() {
+  const token = cookies().get(env.COOKIE_NAME)?.value
+  if (!token) redirect(`${env.BASE_URL.concat('api/logout')}`)
+  const payload = await openSessionToken(token)
+  return payload
 }
