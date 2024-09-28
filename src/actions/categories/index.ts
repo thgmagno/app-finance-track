@@ -69,6 +69,6 @@ export async function drop(id: string) {
   revalidateTag('categories')
   return {
     success: true,
-    message: 'Deleted successfully',
+    message: '✔️ Deleted successfully',
   }
 }

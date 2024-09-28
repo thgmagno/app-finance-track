@@ -111,7 +111,7 @@ export function CardCategories({
               </div>
             </div>
           </CardContent>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-between border-t pt-5">
             <span className="mr-5 text-sm text-muted-foreground">
               Please use 32 characters at maximum.
             </span>
@@ -138,7 +138,6 @@ function parseData(data: string | null) {
   const parsed = schema.safeParse(dataJson)
 
   if (!parsed.success) {
-    console.log(parsed.error)
     redirect('/settings/categories')
   }
 
@@ -156,16 +155,12 @@ function ListCategories({ categoriesList }: { categoriesList: Categories[] }) {
   const encodeData = (data: Categories) => encodeURI(JSON.stringify(data))
 
   const handleDelete = async (id: string) => {
-    try {
-      toast({ description: '⌛ Loading...' })
-      await actions.categories.drop(id)
-      toast({ description: '✔️ Deleted successfully' })
-    } catch (error) {
-      toast({
-        description: 'An error ocurred, try again',
-        variant: 'destructive',
-      })
-    }
+    const { success, message } = await actions.methods.drop(id)
+    toast({ description: '⌛ Loading...' })
+
+    return success
+      ? toast({ description: message })
+      : toast({ description: message, variant: 'destructive' })
   }
 
   return (

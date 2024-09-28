@@ -16,7 +16,7 @@ export default async function Methods() {
 
   return (
     <div>
-      <CardMethods />
+      <CardMethods methodsList={methods} />
     </div>
   )
 }
