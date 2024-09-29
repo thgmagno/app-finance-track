@@ -67,7 +67,7 @@
     @apply dark bg-dark text-foreground overflow-y-scroll
   }
   main {
-    @apply pt-5 pb-32 px-2 max-w-5xl mx-auto
+    @apply pt-5 pb-32 max-w-5xl mx-auto
   }
 }
 

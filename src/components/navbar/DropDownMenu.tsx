@@ -28,7 +28,10 @@ export function DropDownMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex space-x-2">
+        <Button
+          variant="ghost"
+          className="flex space-x-2 p-0 hover:bg-transparent md:mr-5"
+        >
           <User className="h-5 w-5" />
           <ChevronDown className="h-5 w-5" />
         </Button>
