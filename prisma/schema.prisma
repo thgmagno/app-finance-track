@@ -18,8 +18,18 @@ model Users {
   team      Teams?   @relation("UserTeam", fields: [teamId], references: [id])
   teamId    String?  @map("team_id")
   ownedTeam Teams?   @relation("TeamOwner")
+  session   Session?
 
   @@map("users")
+}
+
+model Session {
+  user      Users  @relation(fields: [usersId], references: [id])
+  usersId   String @id @unique
+  token     String
+  timestamp Int
+
+  @@map("session")
 }
 
 model Teams {

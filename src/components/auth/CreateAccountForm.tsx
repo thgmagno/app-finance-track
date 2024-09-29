@@ -15,8 +15,15 @@ import { Label } from '@/components/ui/label'
 import { SubmitButton } from '@/components/shared/SubmitButton'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import { useFormState } from 'react-dom'
+import { actions } from '@/actions'
+import { ErrorMessage } from '../shared/ErrorMessage'
 
 export function CreateAccountForm() {
+  const [formState, action] = useFormState(actions.auth.register, {
+    errors: {},
+  })
+
   return (
     <Card className="my-20 w-[350px]">
       <CardHeader>
@@ -25,34 +32,46 @@ export function CreateAccountForm() {
           Your Path to Smarter Financial Management.
         </CardDescription>
       </CardHeader>
-      <form>
+      <form action={action}>
         <CardContent>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="name">Name</Label>
+              <Input id="name" name="name" placeholder="Enter your name" />
+              <ErrorMessage message={formState?.errors.name} />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="username"
-                name="username"
-                placeholder="Enter your username"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
               />
+              <ErrorMessage message={formState?.errors.email} />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="password">Password</Label>
               <Input
+                type="password"
                 id="password"
                 name="password"
                 placeholder="Enter your password"
               />
+              <ErrorMessage message={formState?.errors.password} />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">Confirm password</Label>
+              <Label htmlFor="confirmPassword">Confirm password</Label>
               <Input
-                id="confirm-password"
-                name="confirm-password"
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
                 placeholder="Confirm your password"
               />
+              <ErrorMessage message={formState?.errors.confirmPassword} />
             </div>
           </div>
+          <ErrorMessage message={formState?.errors._form} />
         </CardContent>
         <CardFooter className="flex justify-between">
           <LinkLogin />

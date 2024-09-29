@@ -1,7 +1,7 @@
 import { Navbar } from '@/components/navbar'
 import { Providers } from './providers'
 
-export default function PrivateLayout({
+export default async function PrivateLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
