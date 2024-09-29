@@ -63,6 +63,7 @@ export function CardMethods({
                   <Input
                     id="name"
                     name="name"
+                    placeholder="Enter a method name"
                     defaultValue={parsed?.name ?? ''}
                   />
                   <ErrorMessage message={formState?.errors.name} />

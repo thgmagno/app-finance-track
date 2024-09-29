@@ -72,6 +72,7 @@ export function CardCategories({
                   <Input
                     id="name"
                     name="name"
+                    placeholder="Enter a category name"
                     defaultValue={parsed?.name ?? ''}
                   />
                   <ErrorMessage message={formState?.errors.name} />
