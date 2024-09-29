@@ -17,7 +17,8 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useFormState } from 'react-dom'
 import { actions } from '@/actions'
-import { ErrorMessage } from '../shared/ErrorMessage'
+import { ErrorMessage } from '@/components/shared/ErrorMessage'
+import { InputPassword } from './InputPassword'
 
 export function LoginForm() {
   const [formState, action] = useFormState(actions.auth.login, { errors: {} })
@@ -43,15 +44,12 @@ export function LoginForm() {
               />
               <ErrorMessage message={formState?.errors.email} />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-              />
-              <ErrorMessage message={formState?.errors.password} />
-            </div>
+            <InputPassword
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
+              errorMessage={formState?.errors.password}
+            />
           </div>
           <ErrorMessage message={formState?.errors._form} />
         </CardContent>

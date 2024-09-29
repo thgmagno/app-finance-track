@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import { useFormState } from 'react-dom'
 import { actions } from '@/actions'
 import { ErrorMessage } from '../shared/ErrorMessage'
+import { InputPassword } from './InputPassword'
 
 export function CreateAccountForm() {
   const [formState, action] = useFormState(actions.auth.register, {
@@ -50,26 +51,18 @@ export function CreateAccountForm() {
               />
               <ErrorMessage message={formState?.errors.email} />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-              />
-              <ErrorMessage message={formState?.errors.password} />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="confirmPassword">Confirm password</Label>
-              <Input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Confirm your password"
-              />
-              <ErrorMessage message={formState?.errors.confirmPassword} />
-            </div>
+            <InputPassword
+              label="password"
+              name="password"
+              placeholder="Choose a secure password"
+              errorMessage={formState?.errors.password}
+            />
+            <InputPassword
+              label="Confirm password"
+              name="confirmPassword"
+              placeholder="Confirm the password"
+              errorMessage={formState?.errors.confirmPassword}
+            />
           </div>
           <ErrorMessage message={formState?.errors._form} />
         </CardContent>

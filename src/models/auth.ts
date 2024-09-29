@@ -28,11 +28,11 @@ export const RegisterSchema = z
   .object({
     name: z.string().min(1).max(32),
     email: z.string().email(),
-    password: z.string(),
+    password: z.string().min(4),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords must match',
+    message: `Passwords don't match`,
     path: ['confirmPassword'],
   })
   .transform(async (data) => {

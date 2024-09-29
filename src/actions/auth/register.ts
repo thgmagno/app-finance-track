@@ -9,23 +9,23 @@ export async function register(
   formState: RegisterFormState,
   formData: FormData,
 ): Promise<RegisterFormState> {
-  const parsed = await RegisterSchema.parseAsync({
+  const parsed = await RegisterSchema.safeParseAsync({
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),
     confirmPassword: formData.get('confirmPassword'),
   })
 
-  if (!parsed) {
-    return { errors: { _form: 'Invalid data' } }
+  if (!parsed.success) {
+    return { errors: parsed.error.flatten().fieldErrors }
   }
 
   try {
     const user = await prisma.users.create({
       data: {
-        name: parsed.name,
-        email: parsed.email,
-        password: parsed.hash,
+        name: parsed.data.name,
+        email: parsed.data.email,
+        password: parsed.data.hash,
       },
       select: { id: true, name: true, teamId: true },
     })
