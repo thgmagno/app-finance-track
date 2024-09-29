@@ -21,13 +21,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useFormState } from 'react-dom'
 import { actions } from '@/actions'
-import { ErrorMessage } from '../shared/ErrorMessage'
-import { redirect, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { ErrorMessage } from '@/components/shared/ErrorMessage'
+import React from 'react'
 import { Categories } from '@prisma/client'
-import { z } from 'zod'
 import { Edit, Grid2x2Plus, MoreHorizontal, Trash2 } from 'lucide-react'
-import { Badge } from '../ui/badge'
+import { Badge } from '@/components/ui/badge'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,35 +34,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Button } from '../ui/button'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { toast } from '@/hooks/use-toast'
 
 export function CardCategories({
+  data,
   categoriesList,
 }: {
+  data?: string
   categoriesList: Categories[]
 }) {
   const [formState, action] = useFormState(actions.categories.upsert, {
     errors: {},
   })
 
-  const [id, setId] = useState('')
-  const [name, setName] = useState('')
-  const [type, setType] = useState('')
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
-    if (searchParams.get('data')) {
-      const parsed = parseData(searchParams.get('data'))
-      setId(parsed.id)
-      setName(parsed.name)
-      setType(parsed.type)
-    } else {
-      setName('')
-      setType('')
-    }
-  }, [searchParams, formState])
+  const parsed: Categories | null = data ? JSON.parse(decodeURI(data)) : null
 
   return (
     <div className="flex flex-col space-y-5">
@@ -80,23 +65,25 @@ export function CardCategories({
         <form action={action}>
           <CardContent>
             <div className="grid w-full items-center gap-4">
-              <input type="hidden" name="id" value={id} />
+              <input type="hidden" name="id" value={parsed?.id ?? ''} />
               <div className="grid gap-5 md:grid-cols-2">
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
                     name="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    defaultValue={parsed?.name ?? ''}
                   />
                   <ErrorMessage message={formState?.errors.name} />
                 </div>
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="type">Type</Label>
-                  <Select name="type" value={type} onValueChange={setType}>
+                  <Select name="type">
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a type" />
+                      <SelectValue
+                        placeholder="Select a type"
+                        defaultValue={parsed?.type ?? ''}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -109,6 +96,7 @@ export function CardCategories({
                   <ErrorMessage message={formState?.errors.type} />
                 </div>
               </div>
+              <ErrorMessage message={formState?.errors._form} />
             </div>
           </CardContent>
           <CardFooter className="flex justify-between border-t pt-5">
@@ -122,26 +110,6 @@ export function CardCategories({
       <ListCategories categoriesList={categoriesList} />
     </div>
   )
-}
-
-function parseData(data: string | null) {
-  const schema = z.object({
-    name: z.string(),
-    id: z.string(),
-    type: z.enum(['EXPENSE', 'RECEIPT', 'SAVING']),
-    createdAt: z.string().transform((val) => new Date(val)),
-    updatedAt: z.string().transform((val) => new Date(val)),
-    teamId: z.string(),
-  })
-
-  const dataJson = JSON.parse(decodeURI(String(data)))
-  const parsed = schema.safeParse(dataJson)
-
-  if (!parsed.success) {
-    redirect('/settings/categories')
-  }
-
-  return parsed.data
 }
 
 function ListCategories({ categoriesList }: { categoriesList: Categories[] }) {

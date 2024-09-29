@@ -40,7 +40,7 @@ const config: Config = {
           foreground: 'hsl(var(--destructive-foreground))',
         },
         light: '#EDEDED',
-        medium: '#0A0A0A',
+        medium: '#09090B',
         dark: '#000',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

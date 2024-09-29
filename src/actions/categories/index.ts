@@ -24,6 +24,15 @@ export async function upsert(
   try {
     const { teamId } = await getServerSession()
 
+    if (!teamId) {
+      return {
+        errors: {
+          _form:
+            'You must create or participate in a team before creating a new category. Please make sure you have a team and try again',
+        },
+      }
+    }
+
     await prisma.categories.upsert({
       where: { id: parsed.data.id },
       update: {

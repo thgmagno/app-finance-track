@@ -11,5 +11,5 @@ export interface CategoryFormState {
 export const CategorySchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1).max(32),
-  type: z.enum(['EXPENSE', 'RECEIPT', 'SAVING']),
+  type: z.enum(['EXPENSE', 'RECEIPT', 'SAVING'], { message: 'Invalid type' }),
 })

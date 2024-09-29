@@ -14,10 +14,8 @@ import { Label } from '@/components/ui/label'
 import { useFormState } from 'react-dom'
 import { actions } from '@/actions'
 import { ErrorMessage } from '../shared/ErrorMessage'
-import { redirect, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Methods } from '@prisma/client'
-import { z } from 'zod'
 import { CreditCard, Edit, MoreHorizontal, Trash2 } from 'lucide-react'
 import {
   DropdownMenu,
@@ -31,25 +29,18 @@ import { Button } from '../ui/button'
 import Link from 'next/link'
 import { toast } from '@/hooks/use-toast'
 
-export function CardMethods({ methodsList }: { methodsList: Methods[] }) {
+export function CardMethods({
+  data,
+  methodsList,
+}: {
+  data?: string
+  methodsList: Methods[]
+}) {
   const [formState, action] = useFormState(actions.methods.upsert, {
     errors: {},
   })
 
-  const [id, setId] = useState('')
-  const [name, setName] = useState('')
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
-    if (searchParams.get('data')) {
-      const parsed = parseData(searchParams.get('data'))
-      setId(parsed.id)
-      setName(parsed.name)
-    } else {
-      setId('')
-      setName('')
-    }
-  }, [searchParams, formState])
+  const parsed: Methods | null = data ? JSON.parse(decodeURI(data)) : null
 
   return (
     <div className="flex flex-col space-y-5">
@@ -65,19 +56,19 @@ export function CardMethods({ methodsList }: { methodsList: Methods[] }) {
         <form action={action}>
           <CardContent>
             <div className="grid w-full items-center gap-4">
-              <input type="hidden" name="id" value={id} />
+              <input type="hidden" name="id" value={parsed?.id ?? ''} />
               <div className="grid gap-5">
                 <div className="flex flex-col space-y-1.5 md:w-1/2">
                   <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
                     name="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    defaultValue={parsed?.name ?? ''}
                   />
                   <ErrorMessage message={formState?.errors.name} />
                 </div>
               </div>
+              <ErrorMessage message={formState?.errors._form} />
             </div>
           </CardContent>
           <CardFooter className="flex justify-between border-t pt-5">
@@ -91,25 +82,6 @@ export function CardMethods({ methodsList }: { methodsList: Methods[] }) {
       <ListMethods methodsList={methodsList} />
     </div>
   )
-}
-
-function parseData(data: string | null) {
-  const schema = z.object({
-    name: z.string(),
-    id: z.string(),
-    createdAt: z.string().transform((val) => new Date(val)),
-    updatedAt: z.string().transform((val) => new Date(val)),
-    teamId: z.string(),
-  })
-
-  const dataJson = JSON.parse(decodeURI(String(data)))
-  const parsed = schema.safeParse(dataJson)
-
-  if (!parsed.success) {
-    redirect('/settings/methods')
-  }
-
-  return parsed.data
 }
 
 function ListMethods({ methodsList }: { methodsList: Methods[] }) {
