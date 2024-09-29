@@ -20,8 +20,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { AlertLogout } from './AlertLogout'
+import { useRouter } from 'next/navigation'
 
 export function DropDownMenu() {
+  const { replace } = useRouter()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -34,18 +37,18 @@ export function DropDownMenu() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => replace('/settings/profile')}>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => replace('/settings')}>
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => replace('/settings/team')}>
             <Users className="mr-2 h-4 w-4" />
             <span>Team</span>
           </DropdownMenuItem>
